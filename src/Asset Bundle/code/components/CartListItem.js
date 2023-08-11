@@ -1,10 +1,19 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const CartListItem = ({ cartItem }) => {
-  const increaseQuantity = () => {};
+  const [newQuantity, setNewQuantity] = useState(cartItem.quantity )
 
-  const decreaseQuantity = () => {};
+  const increaseQuantity = () => {
+   setNewQuantity((prev) => prev + 1)
+   console.warn( newQuantity )
+  };
+
+  const decreaseQuantity = () => {
+    setNewQuantity((prev) => prev - 1)
+   console.warn( newQuantity )
+  };
 
   return (
     <View style={styles.container}>
@@ -15,14 +24,14 @@ const CartListItem = ({ cartItem }) => {
 
         <View style={styles.footer}>
           <Feather
-            onPress={increaseQuantity}
+            onPress={decreaseQuantity}
             name="minus-circle"
             size={24}
             color="gray"
           />
-          <Text style={styles.quantity}>{cartItem.quantity}</Text>
+          <Text style={styles.quantity}>{newQuantity}</Text>
           <Feather
-            onPress={decreaseQuantity}
+            onPress={increaseQuantity}
             name="plus-circle"
             size={24}
             color="gray"

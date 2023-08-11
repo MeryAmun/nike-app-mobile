@@ -24,7 +24,7 @@ const ShoppingCartScreen = () => {
           </View>
           <View style={styles.footer}>
             <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>426.50USD</Text>
+            <Text style={styles.buttonText}>Checkout</Text>
             </Pressable>
           </View>
         </View>

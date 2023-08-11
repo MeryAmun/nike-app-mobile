@@ -1,18 +1,16 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View} from "react-native";
-import { ProductsScreen,ProductScreen ,ShoppingCartScreen } from "./src/screens/index";
+import { registerRootComponent } from 'expo';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Navigation } from "./Navigation";
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ShoppingCartScreen/>
-      {/* <ProductScreen/> */}
-      {/* <ProductsScreen/> */}
-      <StatusBar style="auto" />
-    </View>
+    <Navigation/>
   );
 }
-
+registerRootComponent(App)
 const styles = StyleSheet.create({
   container: {
     flex: 1,

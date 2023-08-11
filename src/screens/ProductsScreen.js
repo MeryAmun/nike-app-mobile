@@ -1,17 +1,25 @@
 import React from 'react'
-import { StyleSheet, View, Image, FlatList } from "react-native";
+import { StyleSheet, View, Image, FlatList,TouchableOpacity } from "react-native";
 import products from '../data/products';
 
-const ProductsScreen = () => (
-    <FlatList
+const ProductsScreen = ({navigation}) => (
+  
+  
+     <FlatList
         data={products}
         renderItem={({ item }) => (
          <View style={styles.itemContainer}>
+          <TouchableOpacity
+           activeOpacity={1}
+          key={item.key}
+          onPress={() => navigation.navigate("Product Details",{item})}>
            <Image source={{ uri: item.image }} style={styles.image} />
+           </TouchableOpacity>
          </View>
           )}
           numColumns={2}
       />
+
   )
 
 

@@ -9,20 +9,19 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import products from "../data/products";
 import { Ionicons } from "@expo/vector-icons";
 
-const ProductScreen = () => {
-  const product = products[0];
+const ProductScreen = ({navigation,route}) => {
   const { width } = useWindowDimensions();
   const addTToCart = () => {
-    console.warn("add to cart")
+    console.log(route)
   };
+
   return (
     <View>
       <ScrollView>
       <FlatList
-        data={product.images}
+        data={route.params.item.images}
         renderItem={({ item }) => (
           <Image
             source={{
@@ -36,17 +35,17 @@ const ProductScreen = () => {
         pagingEnabled
       />
       <View style={styles.details}>
-        <Text style={styles.name}>{product.name}</Text>
-        <Text style={styles.price}>${product.price}</Text>
-        <Text style={styles.description}>{product.description}</Text>
+        <Text style={styles.name}>{route.params.item.name}</Text>
+        <Text style={styles.price}>${route.params.item.price}</Text>
+        <Text style={styles.description}>{route.params.item.description}</Text>
       </View>
       </ScrollView>
       <Pressable style={styles.button} onPress={addTToCart}>
         <Text style={styles.buttonText}>Add to cart</Text>
       </Pressable>
 
-      <Pressable>
-        <Ionicons name="close" size={24} color="ehite" />
+      <Pressable style={styles.icon} onPress={() => navigation.navigate("Products")}>
+        <Ionicons name="close" size={24} color="white" />
       </Pressable>
     </View>
   );
@@ -79,8 +78,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "black",
-    position: "absolute",
-    bottom: 30,
+     position: "absolute",
+     bottom: 30,
     width: "90%",
     alignSelf: "center",
     alignItems: "center",

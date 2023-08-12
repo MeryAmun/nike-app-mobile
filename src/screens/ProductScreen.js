@@ -10,18 +10,19 @@ import {
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-
-const ProductScreen = ({navigation,route}) => {
+import { useSelector } from "react-redux";
+const ProductScreen = ({navigation}) => {
   const { width } = useWindowDimensions();
+const product = useSelector((state) => state.products.selectedProduct)
   const addTToCart = () => {
-    console.log(route)
+    console.log(product)
   };
 
   return (
     <View>
       <ScrollView>
       <FlatList
-        data={route.params.item.images}
+        data={product.images}
         renderItem={({ item }) => (
           <Image
             source={{
@@ -35,9 +36,9 @@ const ProductScreen = ({navigation,route}) => {
         pagingEnabled
       />
       <View style={styles.details}>
-        <Text style={styles.name}>{route.params.item.name}</Text>
-        <Text style={styles.price}>${route.params.item.price}</Text>
-        <Text style={styles.description}>{route.params.item.description}</Text>
+        <Text style={styles.name}>{product.name}</Text>
+        <Text style={styles.price}>${product.price}</Text>
+        <Text style={styles.description}>{product.description}</Text>
       </View>
       </ScrollView>
       <Pressable style={styles.button} onPress={addTToCart}>

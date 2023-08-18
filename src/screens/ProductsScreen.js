@@ -3,8 +3,10 @@ import { StyleSheet, View, Image, FlatList,TouchableOpacity } from "react-native
 //import products from '../data/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { productSlice } from '../redux/ProductSlice';
+import { useNavigation } from '@react-navigation/native';
 
-const ProductsScreen = ({navigation}) => { 
+const ProductsScreen = () => { 
+  const navigation = useNavigation()
   const { products  } = useSelector((state) => state.products);
   const dispatch = useDispatch()
 

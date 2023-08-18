@@ -8,21 +8,32 @@ import {
   FlatList,
   View,
 } from "react-native";
-import React from "react";
+import SelectDropdown from 'react-native-select-dropdown'
+import React,{useState} from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cartSlice } from "../redux/cartSlice";
 const ProductScreen = ({navigation}) => {
   const { width } = useWindowDimensions();
 const product = useSelector((state) => state.products.selectedProduct)
+const [selectedSize, setSelectedSize] = useState()
+
+const dispatch = useDispatch();
+
   const addTToCart = () => {
-    console.log(product)
+    dispatch(cartSlice.actions.addCartItem({product: product, size:selectedSize}))
+    navigation.navigate("Cart")
+  };
+  const selectSize = () => {
+    dispatch(cartSlice.actions.addCartItem({product}))
+    navigation.navigate("Cart")
   };
 
   return (
     <View>
       <ScrollView>
       <FlatList
-        data={product.images}
+        data={product?.images}
         renderItem={({ item }) => (
           <Image
             source={{
@@ -36,9 +47,25 @@ const product = useSelector((state) => state.products.selectedProduct)
         pagingEnabled
       />
       <View style={styles.details}>
-        <Text style={styles.name}>{product.name}</Text>
-        <Text style={styles.price}>${product.price}</Text>
-        <Text style={styles.description}>{product.description}</Text>
+        <Text style={styles.name}>{product?.name}</Text>
+        <Text style={styles.size}>Select Size</Text>
+        <SelectDropdown
+	data={product?.sizes}
+	onSelect={(selectedItem, index) => {
+    setSelectedSize(selectedItem)
+	}}
+	buttonTextAfterSelection={(selectedItem, index) => {
+   
+		return selectedItem
+	}}
+  defaultValueByIndex={1}
+	rowTextForSelection={(item, index) => {
+		return item
+	}}
+  
+/>
+        <Text style={styles.price}>${product?.price}</Text>
+        <Text style={styles.description}>{product?.description}</Text>
       </View>
       </ScrollView>
       <Pressable style={styles.button} onPress={addTToCart}>
@@ -99,5 +126,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000AA",
     borderRadius: 50,
     padding: 5,
+  },
+  size: {
+    fontSize: 14,
+    color: "gray",
   },
 });

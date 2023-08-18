@@ -1,27 +1,40 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet,Pressable, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector} from 'react-redux'
+import { cartSlice } from '../redux/cartSlice'
+
 
 const CartListItem = ({ cartItem }) => {
-  const [newQuantity, setNewQuantity] = useState(cartItem.quantity )
+  const dispatch = useDispatch()
+const itemSubTotal = cartItem?.product?.price * cartItem?.quantity;
 
+
+  const removeItemFromCart = () => {
+    dispatch(cartSlice.actions.removeCartItem({id:cartItem?.product?.id}))
+  }
   const increaseQuantity = () => {
-   setNewQuantity((prev) => prev + 1)
-   console.warn( newQuantity )
+   dispatch(cartSlice.actions.changeQuantity({
+    productId:cartItem?.product?.id, 
+    amount:1
+  }))
+   
   };
-
+  
   const decreaseQuantity = () => {
-    setNewQuantity((prev) => prev - 1)
-   console.warn( newQuantity )
+    dispatch(cartSlice.actions.changeQuantity({
+      productId:cartItem?.product?.id, 
+      amount: -1
+    }))
   };
 
   return (
     <View style={styles.container}>
       <Image source={{ uri: cartItem.product.image }} style={styles.image} />
       <View style={styles.contentContainer}>
-        <Text style={styles.name}>{cartItem.product.name}</Text>
-        <Text style={styles.size}>Size {cartItem.size}</Text>
-
+        <Text style={styles.name}>{cartItem.product?.name}</Text>
+        <Text style={styles.size}>Size: {cartItem?.size}</Text>
         <View style={styles.footer}>
           <Feather
             onPress={decreaseQuantity}
@@ -29,16 +42,19 @@ const CartListItem = ({ cartItem }) => {
             size={24}
             color="gray"
           />
-          <Text style={styles.quantity}>{newQuantity}</Text>
+          <Text style={styles.quantity}>{cartItem?.quantity}</Text>
           <Feather
             onPress={increaseQuantity}
             name="plus-circle"
             size={24}
             color="gray"
           />
-          <Text style={styles.itemTotal}>$320.0</Text>
+          <Text style={styles.itemTotal}>${itemSubTotal}</Text>
         </View>
       </View>
+      <Pressable style={styles.icon} onPress={removeItemFromCart}>
+        <Ionicons name="close" size={20} color="white" />
+      </Pressable>
     </View>
   );
 };
@@ -79,6 +95,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: "auto",
     fontWeight: "500",
+  },
+  icon: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    backgroundColor: "#000000AA",
+    borderRadius: 50,
+    padding: 5,
   },
 });
 

@@ -1,45 +1,51 @@
-import React from 'react'
-import { StyleSheet, View, Image, FlatList,TouchableOpacity } from "react-native";
-//import products from '../data/products';
-import { useDispatch, useSelector } from 'react-redux';
-import { productSlice } from '../redux/ProductSlice';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { productSlice } from "../redux/ProductSlice";
+import { useNavigation } from "@react-navigation/native";
 
-const ProductsScreen = () => { 
-  const navigation = useNavigation()
-  const { products  } = useSelector((state) => state.products);
-  const dispatch = useDispatch()
+const ProductsScreen = () => {
+  const navigation = useNavigation();
+  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
 
- return (
-  <FlatList
-        data={products}
-        renderItem={({ item }) => (
-         <View style={styles.itemContainer}>
+  return (
+    <FlatList
+      data={products}
+      renderItem={({ item }) => (
+        <View style={styles.itemContainer}>
           <TouchableOpacity
-           activeOpacity={1}
-          key={item.key}
-          onPress={() => { 
-            dispatch(productSlice.actions.setSelectedProduct(item.id)),navigation.navigate("Product Details")}}>
-           <Image source={{ uri: item.image }} style={styles.image} />
-           </TouchableOpacity>
-         </View>
-          )}
-          numColumns={2}
-      />
+            activeOpacity={1}
+            key={item.key}
+            onPress={() => {
+              dispatch(productSlice.actions.setSelectedProduct(item.id)),
+                navigation.navigate("Product Details");
+            }}
+          >
+            <Image source={{ uri: item.image }} style={styles.image} />
+          </TouchableOpacity>
+        </View>
+      )}
+      numColumns={2}
+    />
+  );
+};
 
-  )
-}
-
-export default ProductsScreen
-
+export default ProductsScreen;
 
 const styles = StyleSheet.create({
-    image: {
-      width: "100%",
-      aspectRatio: 1,
-    },
-    itemContainer:{
-      width:"50%",
-      padding:1
-    }
-  });
+  image: {
+    width: "100%",
+    aspectRatio: 1,
+  },
+  itemContainer: {
+    width: "50%",
+    padding: 1,
+  },
+});

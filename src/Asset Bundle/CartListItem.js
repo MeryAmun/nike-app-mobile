@@ -1,32 +1,32 @@
-import { useState } from "react";
-import { View, Text, StyleSheet,Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch, useSelector} from 'react-redux'
-import { cartSlice } from '../redux/cartSlice'
-
+import { useDispatch, useSelector } from "react-redux";
+import { cartSlice } from "../redux/cartSlice";
 
 const CartListItem = ({ cartItem }) => {
-  const dispatch = useDispatch()
-const itemSubTotal = cartItem?.product?.price * cartItem?.quantity;
-
+  const dispatch = useDispatch();
+  const itemSubTotal = cartItem?.product?.price * cartItem?.quantity;
 
   const removeItemFromCart = () => {
-    dispatch(cartSlice.actions.removeCartItem({id:cartItem?.product?.id}))
-  }
-  const increaseQuantity = () => {
-   dispatch(cartSlice.actions.changeQuantity({
-    productId:cartItem?.product?.id, 
-    amount:1
-  }))
-   
+    dispatch(cartSlice.actions.removeCartItem({ id: cartItem?.product?.id }));
   };
-  
+  const increaseQuantity = () => {
+    dispatch(
+      cartSlice.actions.changeQuantity({
+        productId: cartItem?.product?.id,
+        amount: 1,
+      })
+    );
+  };
+
   const decreaseQuantity = () => {
-    dispatch(cartSlice.actions.changeQuantity({
-      productId:cartItem?.product?.id, 
-      amount: -1
-    }))
+    dispatch(
+      cartSlice.actions.changeQuantity({
+        productId: cartItem?.product?.id,
+        amount: -1,
+      })
+    );
   };
 
   return (

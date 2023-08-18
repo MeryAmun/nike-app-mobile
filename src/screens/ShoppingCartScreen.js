@@ -1,21 +1,20 @@
-import { View, Text, FlatList, StyleSheet,Pressable } from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
 import CartListItem from "../Asset Bundle/CartListItem";
 import React from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { cartSlice, selectDeliveryPrice, selectSubtotal } from "../redux/cartSlice";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  cartSlice,
+  selectDeliveryPrice,
+  selectSubtotal,
+  selectTotal,
+} from "../redux/cartSlice";
 
 const ShoppingCartScreen = () => {
-  const { items }  = useSelector((state) => state.items);
+  const { items } = useSelector((state) => state.items);
   const dispatch = useDispatch();
- const cartSubTotal = useSelector(selectSubtotal)
- const deliveryPrice = useSelector(selectDeliveryPrice)
-        // console.log(subTotal)
-    
-
-// useEffect(() => {
-// selectSubtotal()
-// }, [])
+  const cartSubTotal = useSelector(selectSubtotal);
+  const deliveryPrice = useSelector(selectDeliveryPrice);
+  const total = useSelector(selectTotal);
 
   return (
     <FlatList
@@ -33,11 +32,11 @@ const ShoppingCartScreen = () => {
           </View>
           <View style={styles.row}>
             <Text style={styles.textBold}>Total</Text>
-            <Text style={styles.textBold}>426.50USD</Text>
+            <Text style={styles.textBold}>{total} USD</Text>
           </View>
           <View style={styles.footer}>
             <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Checkout</Text>
+              <Text style={styles.buttonText}>Checkout</Text>
             </Pressable>
           </View>
         </View>
@@ -66,28 +65,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  footer:{
-// position:"absolute",
-bottom:0,
-width:"100%",
-backgroundColor:"white",
-borderColor:"gainsboro",
-borderTopWidth:1,
-padding:20
+  footer: {
+    // position:"absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "white",
+    borderColor: "gainsboro",
+    borderTopWidth: 1,
+    padding: 20,
   },
-  button:{
-width:"100%",
-backgroundColor:"black",
-alignSelf:"center",
-alignItems:"center",
-padding:20,
-borderRadius:50
+  button: {
+    width: "100%",
+    backgroundColor: "black",
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 50,
   },
-  buttonText:{
-    color:"white",
-    fontWeight:"500",
-    fontSize:16
-  }
+  buttonText: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 16,
+  },
 });
 
 export default ShoppingCartScreen;

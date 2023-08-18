@@ -8,71 +8,74 @@ import {
   FlatList,
   View,
 } from "react-native";
-import SelectDropdown from 'react-native-select-dropdown'
-import React,{useState} from "react";
+import SelectDropdown from "react-native-select-dropdown";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { cartSlice } from "../redux/cartSlice";
-const ProductScreen = ({navigation}) => {
+const ProductScreen = ({ navigation }) => {
   const { width } = useWindowDimensions();
-const product = useSelector((state) => state.products.selectedProduct)
-const [selectedSize, setSelectedSize] = useState()
+  const product = useSelector((state) => state.products.selectedProduct);
+  const [selectedSize, setSelectedSize] = useState();
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const addTToCart = () => {
-    dispatch(cartSlice.actions.addCartItem({product: product, size:selectedSize}))
-    navigation.navigate("Cart")
+    dispatch(
+      cartSlice.actions.addCartItem({ product: product, size: selectedSize })
+    );
+    navigation.navigate("Cart");
   };
   const selectSize = () => {
-    dispatch(cartSlice.actions.addCartItem({product}))
-    navigation.navigate("Cart")
+    dispatch(cartSlice.actions.addCartItem({ product }));
+    navigation.navigate("Cart");
   };
 
   return (
     <View>
       <ScrollView>
-      <FlatList
-        data={product?.images}
-        renderItem={({ item }) => (
-          <Image
-            source={{
-              uri: item,
+        <FlatList
+          data={product?.images}
+          renderItem={({ item }) => (
+            <Image
+              source={{
+                uri: item,
+              }}
+              style={{ width, aspectRatio: 1 }}
+            />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+        />
+        <View style={styles.details}>
+          <Text style={styles.name}>{product?.name}</Text>
+          <Text style={styles.size}>Select Size</Text>
+          <SelectDropdown
+            data={product?.sizes}
+            onSelect={(selectedItem, index) => {
+              setSelectedSize(selectedItem);
             }}
-            style={{ width, aspectRatio: 1 }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            defaultValueByIndex={1}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
           />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-      />
-      <View style={styles.details}>
-        <Text style={styles.name}>{product?.name}</Text>
-        <Text style={styles.size}>Select Size</Text>
-        <SelectDropdown
-	data={product?.sizes}
-	onSelect={(selectedItem, index) => {
-    setSelectedSize(selectedItem)
-	}}
-	buttonTextAfterSelection={(selectedItem, index) => {
-   
-		return selectedItem
-	}}
-  defaultValueByIndex={1}
-	rowTextForSelection={(item, index) => {
-		return item
-	}}
-  
-/>
-        <Text style={styles.price}>${product?.price}</Text>
-        <Text style={styles.description}>{product?.description}</Text>
-      </View>
+          <Text style={styles.price}>${product?.price}</Text>
+          <Text style={styles.description}>{product?.description}</Text>
+        </View>
       </ScrollView>
       <Pressable style={styles.button} onPress={addTToCart}>
         <Text style={styles.buttonText}>Add to cart</Text>
       </Pressable>
 
-      <Pressable style={styles.icon} onPress={() => navigation.navigate("Products")}>
+      <Pressable
+        style={styles.icon}
+        onPress={() => navigation.navigate("Products")}
+      >
         <Ionicons name="close" size={24} color="white" />
       </Pressable>
     </View>
@@ -106,8 +109,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "black",
-     position: "absolute",
-     bottom: 30,
+    position: "absolute",
+    bottom: 30,
     width: "90%",
     alignSelf: "center",
     alignItems: "center",
